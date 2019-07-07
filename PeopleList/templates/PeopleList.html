@@ -1,0 +1,45 @@
+{% extends "home.html" %}
+
+{% block content %}
+ <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2 class="h2">预留搜素框</h2>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">搜索</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">添加人员</button>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+              <tr>
+              <th>姓名</th>
+              <th>证件号</th>
+              <th>部门</th>
+              <th>人员类别</th>
+              <th>职级</th>
+              <th>食堂</th>
+              <th>电话</th>
+              <th>上级管理者</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for peoplelist in PeopleLists %}
+            <tr>
+              <td>{{peoplelist.name}}</td>
+              <td>{{peoplelist.pid}}</td>
+              <td>{{peoplelist.department}}</td>
+              <td>{{peoplelist.classification}}</td>
+              <td>{{peoplelist.rank}}</td>
+              <td>{{peoplelist.canteen}}</td>
+              <td>{{peoplelist.tel}}</td> 
+              <td>{{peoplelist.manager}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+{% endblock content %}
