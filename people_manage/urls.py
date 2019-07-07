@@ -19,6 +19,7 @@ import PeopleList.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', PeopleList.views.home, name = 'home'),
+    path('', PeopleList.views.home, name = '主页'),
     path('PeopleList/', include('PeopleList.urls')),
+    path('Account/', include('Account.urls')),
 ]

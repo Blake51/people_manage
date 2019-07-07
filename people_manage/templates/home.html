@@ -1,7 +1,7 @@
-<!--<h1>欢迎进入主页</h1>-->
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Bootstrap前端作者信息-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -14,11 +14,22 @@
   </head>
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <div>
   		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">某国内知名公司</a>
-  		<ul class="navbar-nav px-3">
-    		<li class="nav-item text-nowrap">
-      			<a class="nav-link" href="#">用户登录</a>
-    		</li>
+      </div>
+      <div class="btn-group mr-2">
+      {% if user.is_authenticated %}
+        <a class="nav-item nav-link" href=" {% url '主页' %} ">已登录</a>
+        <a class="nav-item nav-link" href="Javascript:{document.getElementById('退出').submit()}">退出</a>
+        <form id='退出' method='POST' action=" {% url '退出页面' %} ">
+      {% csrf_token %}
+        <input type="hidden">
+        </form>
+      {% else %}
+        <a class="nav-item nav-link" href=" {% url '登录页面' %} ">登录</a>
+        <a class="nav-item nav-link" href=" {% url '注册页面' %} ">注册</a>
+      {% endif %}
+      </div>
 	</nav>
 <br>
 <br>
@@ -27,32 +38,30 @@
   <div class="row">
     <nav class="col-md-2 d-none d-md-block bg-light sidebar">
       <div class="sidebar-sticky">
+
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href={% url 'PeopleList' %}>
+            <a class="nav-link" href="{% url '主页' %}">
               <span data-feather="file"></span>
-              人员信息
+              主页
             </a>
           </li>
-        </ul>
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>在位情况统计</span>
-          <a class="d-flex align-items-center text-muted" href="#">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>管理设置</span>
-          <a class="d-flex align-items-center text-muted" href="#">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>关于</span>
-          <a class="d-flex align-items-center text-muted" href="#">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
+        </ul> 
+        {% if  user.is_authenticated %}
+        {% for navlist in  navlists %}
+
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href={% url navlist %}>
+              <span data-feather="file"></span>
+              {{navlist}}
+            </a>
+          </li>
+        </ul>          
+        {% endfor %}          
+        {% endif %}
+
+
       </div>
       <br>
       <br>
@@ -63,6 +72,5 @@
    
   </div>
 </div>
-
 </body>
 </html>

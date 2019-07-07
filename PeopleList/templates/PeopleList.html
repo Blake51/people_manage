@@ -3,11 +3,15 @@
 {% block content %}
  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h2 class="h2">预留搜素框</h2>
+        <h2 class="h2">人员信息</h2>
+        <form name="input" action="" method="post">
+          {% csrf_token %}
+          <input type="text" name="search" />
+          <input type="button"  href="#" value="搜索" />
+        </form>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">搜索</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">添加人员</button>
+            <a class="nav-link" href={% url '添加人员' %}>添加人员</a>
           </div>
         </div>
       </div>

@@ -17,6 +17,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.PeopleList, name = '人员信息'),
-    path('PeopleAdd/', views.PeopleAdd, name = '添加人员'),
+    path('signup/', views.signup, name='注册页面'),
+    path('login/', views.login, name='登录页面'),
+    path('logout/', views.logout, name='退出页面'),
 ]

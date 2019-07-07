@@ -13,7 +13,7 @@ class People(models.Model):
     canteen = models.CharField(default='1号食堂', max_length=50, verbose_name = '食堂')
 
     manager = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name = '管理者')#上级管理者
-    pub_date = models.DateTimeField(verbose_name = '创建实践')#创建时间
+    pub_date = models.DateTimeField(verbose_name = '创建时间')#创建时间
 
     def __str__(self):
         return self.name
