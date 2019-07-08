@@ -1,0 +1,17 @@
+{% extends "home.html" %}
+
+{% block content %}
+<br>
+
+<form method='POST' action='{% url '批量导入' %}' align='left' enctype='multipart/form-data'>
+    {% csrf_token %}
+    <br>
+    <input type="file" name="批量导入">  
+        <br>
+        <br>
+    {{ 错误 }}
+    {{ x }}
+    <input class='btn btn-primary' align='right' type="submit" value="提交">
+</form>
+
+{% endblock content %}

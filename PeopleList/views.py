@@ -3,7 +3,7 @@ from .models import People
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-
+from .functions import MultiAdd
 
 navlists = ['人员信息']
 #主页
@@ -13,17 +13,22 @@ def home(request):
 #人员信息列表
 @login_required
 def PeopleList(request):
-    if request.user.username == 'admin':
+    user_name = request.user.username
+    if  user_name== 'admin':
         peoplelists = People.objects.all()
     else:
         peoplelists = People.objects.filter(manager = request.user)
-    return render(request, 'PeopleList.html', {'navlists':navlists, 'PeopleLists':peoplelists})
+    #需要传递的变量字典
+    Var = {'navlists':navlists, 'PeopleLists':peoplelists, 'user_name': user_name}
+    return render(request, 'PeopleList.html', Var)
 
 #添加人员
 @login_required
 def PeopleAdd(request):
+    user_name = request.user.username
+    Var = {'navlists':navlists, 'user_name': user_name}
     if request.method == 'GET':
-        return render(request, 'PeopleAdd.html', {'navlists':navlists})
+        return render(request, 'PeopleAdd.html', Var)
     elif request.method == 'POST':
         name = request.POST['姓名']
         pid = request.POST['证件号']
@@ -46,5 +51,35 @@ def PeopleAdd(request):
             people.save()
             return redirect('人员信息')
         except Exception as err:
-            return render(request, 'PeopleAdd.html', {'错误': '请重新输入!', 'navlists':navlists})
+            Var.update({'错误': '请重新输入!'})
+            return render(request, 'PeopleAdd.html', Var)
+#批量导入
+@login_required
+def MultiPeopleAdd(request):
+    user_name = request.user.username
+    Var = {'navlists':navlists, 'user_name': user_name}
+    if request.method == 'GET':
+        return render(request, 'MultiPeopleAdd.html', Var)
+    elif request.method == 'POST':
+        excel = request.FILES.get('批量导入')
+        table = MultiAdd(excel).fetch_table()
+        for x in range(1,table.nrows):
+            #从第二行开始导入
+            try:
+                people = People()
+                people.name = table.row_values(x)[0]
+                people.pid = table.row_values(x)[1]
+                people.department = table.row_values(x)[2]
+                people.classification = table.row_values(x)[3]
+                people.rank = table.row_values(x)[4]
+                people.canteen = table.row_values(x)[5]
+                people.tel = table.row_values(x)[6]
+                people.manager =  request.user
+                people.pub_date = timezone.datetime.now()
+                people.save()
+            except Exception as err:
+                Var.update({'错误': '请重新输入!'})
+                return render(request, 'MultiPeopleAdd.html', Var)
+        return redirect('人员信息')
+
  

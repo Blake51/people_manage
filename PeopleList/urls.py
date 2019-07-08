@@ -19,4 +19,5 @@ from . import views
 urlpatterns = [
     path('', views.PeopleList, name = '人员信息'),
     path('PeopleAdd/', views.PeopleAdd, name = '添加人员'),
+    path('MultiPeopleAdd/', views.MultiPeopleAdd, name = '批量导入'),
 ]
