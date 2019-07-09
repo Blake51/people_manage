@@ -1,0 +1,55 @@
+{% extends "home.html" %}
+
+{% block content %}
+ <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2 class="h2">人员信息</h2>
+        <form name="input" action="" method="post">
+          {% csrf_token %}
+          <input type="text" name="search" />
+          <input type="button"  href="#" value="搜索" />
+        </form>
+      </div>
+      <h2>是否确定删除以下人员信息：</h2>
+      <h2>{{ 错误 }}</h2>
+      <form action="{% url '删除人员' %}" method="POST">   
+        {% csrf_token %}
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+              <tr>
+              <th>选择</th>
+              <th>标识号</th>
+              <th>姓名</th>
+              <th>证件号</th>
+              <th>部门</th>
+              <th>人员类别</th>
+              <th>职级</th>
+              <th>食堂</th>
+              <th>电话</th>
+              <th>上级管理者</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for person in persons %}
+            <tr>
+              <td><input type="checkbox" value="{{ person.pk }}" name="选中" checked>{{ i }}</td>
+              <td>{{person.pk}}</td>
+              <td>{{person.name}}</td>
+              <td>{{person.pid}}</td>
+              <td>{{person.department}}</td>
+              <td>{{person.classification}}</td>
+              <td>{{person.rank}}</td>
+              <td>{{person.canteen}}</td>
+              <td>{{person.tel}}</td> 
+              <td>{{person.manager}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div> 
+    <input type="submit" value="确认删除"/>  
+    </form>  
+    </main>
+{% endblock content %}

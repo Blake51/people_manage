@@ -132,5 +132,31 @@ def PersonEdit(request):
             except Exception as err:
                 Var.update({'错误': '请重新输入!'})
                 return render(request, 'PeopleAdd.html', Var)        
+#删除人员
+@login_required
+def PeopleDelete(request):
+    user_name = request.user.username
+    Var = {'navlists':navlists, 'user_name': user_name}
+    if request.method == 'GET':
+        return render(request, 'PeopleEdit.html', Var)
+    elif request.method == 'POST':
+        try:
+            persons = []
+            box_chooses = request.POST.getlist('选项')
+            box_chosens = request.POST.getlist('选中')
+            if box_chooses:
+                for box_choose in box_chooses:
+                    person = People.objects.get(pk = box_choose) 
+                    persons.append(person) 
+                Var.update({'persons':persons})
+                return render(request, 'PeopleDelete.html', Var)
+            elif box_chosens:
+                for box_chosen in box_chosens:
+                    People.objects.filter(pk = box_chosen).delete()
+                People.objects.save()
+                return render(request, 'PeopleEdit.html', Var)                 
+        except Exception as err:
+            Var.update({'错误': '出现错误!'})
+            return render(request, 'PeopleEdit.html', Var)     
 
  
