@@ -1,0 +1,46 @@
+{% extends "home.html" %}
+
+{% block content %}
+
+<form method='POST' action='{% url '修改人员信息' %}' align='left' enctype='multipart/form-data'>
+    {% csrf_token %}
+    <br>
+    　标　识　号:
+    <input value="{{person.pk}}" type="textbox" name="pk">
+        <br>
+        <br>
+    <br>
+    　姓　　名　:
+    <input value="{{person.name}}" type="textbox" name="姓名">
+        <br>
+        <br>
+    　证　件　号:
+    <input value="{{person.pid}}" type="textbox" name="证件号">
+        <br>
+        <br>
+    　部　　门　:
+    <input value="{{person.department}}" type="textbox" name="部门">
+        <br>
+        <br>
+    　人员类别　:
+    <input value="{{person.classification}}" type="textbox" name="类别">
+        <br>
+        <br>
+    　职　　级　:
+    <input value="{{person.rank}}" type="textbox" name="职级">
+        <br>
+        <br>
+    　电　　话　:
+    <input value="{{person.tel}}" type="textbox" name="电话">
+        <br>
+        <br>
+    　食　　堂　:
+    <input value="{{person.canteen}}" type="textbox" name="食堂">
+        <br>
+        <br>
+    {{ 错误 }}
+    <input class='btn btn-primary' align='right' type="submit" value="确认修改">
+</form>
+
+
+{% endblock content %}

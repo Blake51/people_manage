@@ -8,12 +8,13 @@
           {% csrf_token %}
           <input type="text" name="search" />
           <input type="button"  href="#" value="搜索" />
-        </form>
+        </form>     
       </div>
       <div class="table-responsive">
-        <table class="table table-striped table-sm">
+        <table class="table table-striped table-sm" >
           <thead>
               <tr>
+              <th>选择</th>
               <th>标识号</th>
               <th>姓名</th>
               <th>证件号</th>
@@ -23,11 +24,15 @@
               <th>食堂</th>
               <th>电话</th>
               <th>上级管理者</th>
+              <th>修改</th>
             </tr>
           </thead>
           <tbody>
             {% for peoplelist in PeopleLists %}
             <tr>
+              <form action="{% url '修改人员信息' %}" method="POST">
+              {% csrf_token %}
+              <td><input type="checkbox" value="{{ peoplelist.pk }}" name="选项" >{{ i }}</td>
               <td>{{peoplelist.pk}}</td>
               <td>{{peoplelist.name}}</td>
               <td>{{peoplelist.pid}}</td>
@@ -37,6 +42,8 @@
               <td>{{peoplelist.canteen}}</td>
               <td>{{peoplelist.tel}}</td> 
               <td>{{peoplelist.manager}}</td>
+              <td><input type="submit" value="修改"/></td>
+              </form>
             </tr>
             {% endfor %}
           </tbody>

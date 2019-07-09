@@ -1,7 +1,6 @@
 {% extends "home.html" %}
 
 {% block content %}
-<br>
 
 <form method='POST' action='{% url '添加人员' %}' align='left' enctype='multipart/form-data'>
     {% csrf_token %}
@@ -36,6 +35,10 @@
         <br>
     {{ 错误 }}
     <input class='btn btn-primary' align='right' type="submit" value="提交">
+    <div class="btn-group mr-2"> 
+    <a class="nav-link" href={% url '批量导入' %}>批量导入</a> 
+    </div> 
 </form>
+
 
 {% endblock content %}
