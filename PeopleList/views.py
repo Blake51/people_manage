@@ -149,13 +149,13 @@ def PeopleDelete(request):
                     person = People.objects.get(pk = box_choose) 
                     persons.append(person) 
                 Var.update({'persons':persons})
-                return render(request, 'PeopleDelete.html', Var)
-            elif box_chosens:
+                return render(request, 'PeopleDelete.html', Var) 
+            if box_chosens:
                 for box_chosen in box_chosens:
                     People.objects.filter(pk = box_chosen).delete()
-                People.objects.save()
-                return render(request, 'PeopleEdit.html', Var)                 
-        except Exception as err:
+                return redirect('修改人员')
+            return redirect('人员信息')            
+        except Exception as err:       
             Var.update({'错误': '出现错误!'})
             return render(request, 'PeopleEdit.html', Var)     
 

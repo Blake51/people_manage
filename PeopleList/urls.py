@@ -21,6 +21,6 @@ urlpatterns = [
     path('PeopleAdd/', views.PeopleAdd, name = '添加人员'),
     path('MultiPeopleAdd/', views.MultiPeopleAdd, name = '批量导入'),
     path('PeopleEdit/', views.PeopleEdit, name = '修改人员'),
-    path('PersonEdit/', views.PersonEdit, name = '修改人员信息'),
+    path('PersonEdit/', views.PersonEdit, name = '修改个人信息'),
     path('PeopleDelete/', views.PeopleDelete, name = '删除人员'),
 ]

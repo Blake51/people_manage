@@ -34,7 +34,7 @@
           <tbody>  
             {% for peoplelist in PeopleLists %}
               <tr>
-              <form action="{% url '修改人员信息' %}" method="POST">
+              <form action="{% url '修改个人信息' %}" method="POST">
               {% csrf_token %}
               <td><input type="checkbox" value="{{ peoplelist.pk }}" name="选项" >{{ i }}</td>
               <td>{{peoplelist.pk}}</td>
