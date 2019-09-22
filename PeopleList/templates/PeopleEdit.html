@@ -11,9 +11,9 @@
           <input type="button"  href="#" value="搜索" />
         </form>
       </div>
-      <form action="{% url '删除人员' %}" method="POST">  
+       <form method="post" action="{% url '修改人员' %}"> 
       {% csrf_token %}
-      <input type="submit" value="删除人员"/>
+      <input type="submit" name = "del" value="删除人员"/>
       <div class="table-responsive">
         <table class="table table-striped table-sm" >
           <thead>
@@ -34,8 +34,6 @@
           <tbody>  
             {% for peoplelist in PeopleLists %}
               <tr>
-              <form action="{% url '修改个人信息' %}" method="POST">
-              {% csrf_token %}
               <td><input type="checkbox" value="{{ peoplelist.pk }}" name="选项" >{{ i }}</td>
               <td>{{peoplelist.pk}}</td>
               <td>{{peoplelist.name}}</td>
@@ -46,13 +44,12 @@
               <td>{{peoplelist.canteen}}</td>
               <td>{{peoplelist.tel}}</td> 
               <td>{{peoplelist.manager}}</td>
-              <td><input type="submit" value="修改"/></td>      
+              <td><input type="submit" name = "update" value="修改"/></td>      
               </tr>
-            {% endfor %}
-          </form>  
+            {% endfor %} 
           </tbody>
         </table>
       </div>
-    </form>  
+      </form>      
     </main>
 {% endblock content %}

@@ -5,10 +5,9 @@
 <form method='POST' action='{% url '修改个人信息' %}' align='left' enctype='multipart/form-data'>
     {% csrf_token %}
     <br>
-    　标　识　号:
-    <label for="{{person.pk}}" name="pk">{{person.pk}}</label>
-        <br>
-        <br>
+    <input type='hidden'  value="{{person.pk}}" name="pk">
+    {#　标　识　号:    #}
+    {# <label for="{{person.pk}}" name="pk">{{person.pk}}</label> #}
     <br>
     　姓　　名　:
     <input value="{{person.name}}" type="textbox" name="姓名">

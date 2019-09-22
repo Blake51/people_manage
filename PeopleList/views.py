@@ -92,7 +92,22 @@ def PeopleEdit(request):
         peoplelists = People.objects.filter(manager = request.user)
     #需要传递的变量字典
     Var = {'navlists':navlists, 'PeopleLists':peoplelists, 'user_name': user_name}
-    return render(request, 'PeopleEdit.html', Var)
+    
+    if request.method == 'GET':
+        return render(request, 'PeopleEdit.html', Var)
+    elif request.method == 'POST':
+        #try:
+            box_chosen = request.POST.get('选项')
+            person = People.objects.get(pk = box_chosen)
+            Var.update({'person': person})            
+            if 'update' in request.POST:
+                return render(request, 'PersonEdit.html', Var) #update功能实现
+            elif 'del' in request.POST: 
+                return PeopleDelete(request)#del功能实现，带参数重定向至'删除人员'             
+            else:
+                return render(request, 'PeopleList.html', Var) #异常返回
+        #except:
+            #return render(request, 'PeopleList.html', Var)
 
 #修改人员信息
 @login_required
@@ -100,7 +115,7 @@ def PersonEdit(request):
     user_name = request.user.username
     Var = {'navlists':navlists, 'user_name': user_name}
     if request.method == 'GET':
-        return render(request, 'PersonEdit.html', Var)
+        return render(request, 'PeopleEdit.html', Var)
     elif request.method == 'POST':
         try:
             box_chosen = request.POST.get('选项')
@@ -108,30 +123,37 @@ def PersonEdit(request):
             Var.update({'person': person})
             return render(request, 'PersonEdit.html', Var)
         except:
-            pk = request.POST['pk']
-            name = request.POST['姓名']
-            pid = request.POST['证件号']
-            department = request.POST['部门']
-            classification = request.POST['类别']
-            rank = request.POST['职级']
-            tel = request.POST['电话']#需要限制
-            canteen = request.POST['食堂']  
-            try:
-                people = People.objects.get(pk = pk)
-                people.name = name
-                people.pid = pid
-                people.department = department
-                people.classification = classification
-                people.rank = rank
-                people.tel = tel
-                people.canteen = canteen
-                people.manager =  request.user
-                people.pub_date = timezone.datetime.now()
-                people.save()
-                return redirect('人员信息')
-            except Exception as err:
-                Var.update({'错误': '请重新输入!'})
-                return render(request, 'PeopleAdd.html', Var)        
+            if 'pk' in request.POST:
+            #获取表单内修改信息
+                pk = request.POST['pk']
+                name = request.POST['姓名']
+                pid = request.POST['证件号']
+                department = request.POST['部门']
+                classification = request.POST['类别']
+                rank = request.POST['职级']
+                tel = request.POST['电话']#需要限制
+                canteen = request.POST['食堂']  
+                try:
+                    people = People.objects.get(pk = pk)
+                    people.name = name
+                    people.pid = pid
+                    people.department = department
+                    people.classification = classification
+                    people.rank = rank
+                    people.tel = tel
+                    people.canteen = canteen
+                    people.manager =  request.user
+                    people.pub_date = timezone.datetime.now()
+                    people.save()
+                    return redirect('人员信息')
+                except Exception as err:
+                    Var.update({'错误': '无法获取人员信息'})
+                    return render(request, 'PersonEdit.html', Var)                     
+            else:
+                Var.update({'错误': '表单信息不全'})
+                return render(request, 'PersonEdit.html', Var) 
+
+       
 #删除人员
 @login_required
 def PeopleDelete(request):
@@ -149,7 +171,7 @@ def PeopleDelete(request):
                     person = People.objects.get(pk = box_choose) 
                     persons.append(person) 
                 Var.update({'persons':persons})
-                return render(request, 'PeopleDelete.html', Var) 
+                return render(request, 'PeopleDelete.html', Var)# 
             if box_chosens:
                 for box_chosen in box_chosens:
                     People.objects.filter(pk = box_chosen).delete()
